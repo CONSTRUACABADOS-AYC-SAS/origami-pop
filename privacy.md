@@ -1,6 +1,6 @@
 # Privacy Policy
 
-**App:** Origami Pop (package `com.paper.folding.origamipop`)
+**App:** Origami Pop (package `com.construacabados.orgami.pop`)
 **Developer:** CONSTRUACABADOS AYC SAS ("we", "us")
 **Effective date:** 2026-10-29
 **Contact:** santanaleticia3168661@gmail.com

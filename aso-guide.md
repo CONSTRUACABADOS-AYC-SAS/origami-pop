@@ -3,7 +3,7 @@
 **Marketing URL (landing)**: https://construacabados-ayc-sas.github.io/origami-pop/ (landing do orchestrator publish — URL deterministic; hiện trả trang mục lục legal HTTP 200)
 **Privacy Policy**: https://construacabados-ayc-sas.github.io/origami-pop/privacy/ · **Terms**: https://construacabados-ayc-sas.github.io/origami-pop/terms/ (Support URL = trang legal của store)
 **Developer / contact**: CONSTRUACABADOS AYC SAS · santanaleticia3168661@gmail.com
-**Package**: com.paper.folding.origamipop
+**Package**: com.construacabados.orgami.pop
 
 ## App access
 Toàn bộ chức năng dùng được KHÔNG cần tài khoản/mã/thanh toán: không có màn đăng nhập, không paywall, mọi mẫu mở sẵn. Không cần credential test hay mã ghép đôi (không có tính năng nhiều người).
