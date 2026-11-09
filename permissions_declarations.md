@@ -1,30 +1,36 @@
-# PERMISSION DECLARATIONS — Origami Pop (05h)
+# Permission declarations — Origami Pop (05h)
 
-Nguồn: merged manifest (prodDebug) + `compliance_census.md` trục API nhạy cảm + grep source, ngày 2026-10-29.
+Nguồn: merged manifest `app/build/intermediates/merged_manifests/prodDebug/processProdDebugManifest/AndroidManifest.xml` (xem `compliance_census.md` § 4).
 
-## Kết luận: **KHÔNG có permission/foreground-service nào đòi video demo hay declaration form bắt buộc** ("no sensitive-API video required")
-Đã grep và KHÔNG thấy: `BIND_ACCESSIBILITY_SERVICE`, `SYSTEM_ALERT_WINDOW`, `QUERY_ALL_PACKAGES`, `PACKAGE_USAGE_STATS`, `BIND_NOTIFICATION_LISTENER_SERVICE`, `BIND_VPN_SERVICE`, `BIND_DEVICE_ADMIN`, `READ/SEND_SMS`, `READ/WRITE_CALL_LOG`, location (fine/coarse/background), `MANAGE_EXTERNAL_STORAGE`, `READ_MEDIA_*`, `RECORD_AUDIO`, `USE/SCHEDULE_EXACT_ALARM`, và `android:foregroundServiceType` = 0 kết quả; `startForeground` trong `app/src/main` = 0. ⇒ không cần `permission_videos/*.mp4`, không cần `permission_videos.json`, không cần host video.
+**Kết luận:** app **không** có permission nào thuộc diện form declaration bắt buộc của Play (không foreground-service-type, không All-files, không Accessibility/VPN/overlay/Usage-stats/QUERY_ALL_PACKAGES/SMS/Call-log/exact-alarm/location). Vẫn lập mục cho permission runtime mà reviewer có thể hỏi (CAMERA) và ghi rõ quyền không cần video.
 
 ## Foreground service permissions
-- Không có type. Merged manifest chỉ có `android.permission.FOREGROUND_SERVICE` (normal, do thư viện kéo vào). Console "Foreground service permissions": khai **"My app doesn't use foreground service permissions"** nếu form hiện. *Khuyến nghị gỡ hẳn bằng `tools:node="remove"` (xem policy_audit R1).*
+- Không có `android:foregroundServiceType` nào (grep merged manifest = 0). `FOREGROUND_SERVICE` do thư viện kéo vào; app không có service foreground nào. **Console → App content → Foreground service permissions:** chọn "app không dùng foreground service" / trả lời "không có tác vụ foreground" (không tính năng nào cần).
 
-## Sensitive / runtime permissions (không cần declaration form — ghi để Console & reviewer đối chiếu)
-| Permission | Feature người dùng thấy | Mô tả quyền (dán nếu Console hỏi) | Video | Listing |
-|---|---|---|---|---|
-| `android.permission.CAMERA` | Màn "Snap your model": chụp ảnh thành phẩm sau khi gấp xong, lưu vào Creations. Có rationale + runtime request; từ chối vẫn dùng "From gallery". `<uses-feature camera required=false>` | "Camera is used only when the user taps Take photo to photograph their finished origami. Photos are stored on the device and are never uploaded." | Không bắt buộc (runtime permission thường) | "Take a photo with the in-app camera or choose one from your gallery…" · "The camera is only used if you choose to photograph your finished model." |
-| `android.permission.POST_NOTIFICATIONS` | Nhắc gấp hằng ngày (người dùng bật/tắt + chọn giờ trong Profile) + thông báo FCM | "Shows the optional daily folding reminder the user schedules, and occasional app messages." | Không (Play không đòi) | "Notifications are optional and only used for the daily folding reminder and occasional app messages" |
-| `android.permission.RECEIVE_BOOT_COMPLETED` | Khôi phục lịch nhắc sau khi máy khởi động lại (`BootReceiver`) | "Re-schedules the daily reminder after the device restarts." | Không | như trên |
-| `android.permission.VIBRATE` | Rung nhẹ khi gấp | normal | — | — |
-| `AD_ID`, `ACCESS_ADSERVICES_*` | Quảng cáo/attribution | Khai Advertising ID trên Console (App content → Advertising ID = Yes: Advertising / Analytics) | — | "supported by ads" |
-| `READ_BASIC_PHONE_STATE`, `com.amazon.privacypass.ATTEST`, `com.samsung.android.mapsagent.permission.READ_APP_INFO`, `com.google.android.finsky.*`, `c2dm.RECEIVE` | do thư viện ads/Firebase | không phải feature của app | — | — |
-| `com.android.vending.BILLING`, `CHECK_LICENSE` | hạ tầng module-ads; KHÔNG có màn mua | không khai IAP | — | — |
+## Sensitive permissions
+### CAMERA (runtime)
+- Feature: **Take photo** ở màn Congrats → màn "Snap your model" (`features/camera/CameraScreen.kt`, CameraX, ảnh vuông) để chụp thành phẩm, lưu vào Creations / Share.
+- Declaration form: **không có form riêng** trên Play cho CAMERA (chỉ Data Safety + mô tả). Nếu hỏi: tính năng tuỳ chọn, không phải core.
+- Mô tả quyền (dán nếu cần): *"Origami Pop dùng Camera chỉ khi người dùng bấm 'Take photo' để chụp tác phẩm gấp giấy của mình. Ảnh được xử lý và lưu trên thiết bị, không tải lên máy chủ; người dùng có thể từ chối và dùng 'From gallery' thay thế."*
+- Video demo: **AI đã quay** `permission_videos/camera.mp4` (102 s, 540 px, 840 KB; emulator `re2`, airplane mode, bản build `com.construacabados.orgami.pop`).
+  - Cảnh: 1) màn Home điện thoại → mở app drawer → bấm icon "Origami Pop"; 2) Language → English (United States) → xác nhận; 3) Onboarding → Home; 4) Resume Crown → chọn bước 26 → Finish & celebrate; 5) Congrats → Take photo; 6) hộp thoại giải thích in-app → "Got it"; 7) hộp thoại hệ thống "Allow … to take pictures" → While using the app; 8) viewfinder camera chạy thật.
+  - Direct link sau khi host vào repo store public (`tools/video_publish.sh --app <dir> --storeCode a021`): Pages `https://construacabados-ayc-sas.github.io/origami-pop/permission_videos/camera.mp4` · raw `https://raw.githubusercontent.com/CONSTRUACABADOS-AYC-SAS/origami-pop/main/permission_videos/camera.mp4` — **trạng thái: CHƯA host** (orchestrator publish cùng landing/legal; ghi trong `permission_videos.json`).
+  - Listing đối chiếu (full_description): "The Camera permission is used only if you choose to photograph your finished fold; photos stay on your device unless you share them."
+- Real-device-only: không (camera ảo của emulator cho viewfinder).
 
-## To REMOVE (thừa)
-- `FOREGROUND_SERVICE` — không feature nào dùng (R1).
-- `com.android.vending.BILLING` — chỉ là hạ tầng thư viện ads; giữ vì `AppPurchase` của module-ads cần (FRICTIONLESS_ACCESS §3) — KHÔNG khuyến nghị gỡ.
+### POST_NOTIFICATIONS (runtime, Android 13+)
+- Feature: nhắc gấp hằng ngày (tuỳ chọn) + FCM. Play **không** đòi declaration/video. Listing: "The Notifications permission is used for your optional daily reminder and for messages from us".
 
-## Advertising ID (Console)
-App dùng Advertising ID ⇒ App content → Advertising ID: **Yes**, mục đích Advertising + Analytics (đã có `AD_ID` trong manifest).
+### RECEIVE_BOOT_COMPLETED (normal)
+- Không cần form. `core/BootReceiver` đặt lại nhắc sau khi khởi động. Listing: "the app restores the reminder after your phone restarts".
 
-## TODO người làm
-Không có video cần quay. Chỉ cần trả lời các form Console theo bảng trên (Advertising ID, Foreground service = không dùng, Data safety = import CSV).
+### AD_ID / ACCESS_ADSERVICES_* (ads)
+- **App content → Advertising ID = Yes** (Advertising or marketing + Analytics). Không cần video. Listing nói rõ ads + Advertising ID.
+
+## To REMOVE (thừa, không feature dùng)
+- Không đề xuất gỡ permission nào của app. `com.android.vending.BILLING` + `CHECK_LICENSE` đến từ thư viện ads (kiểm cờ ad-free), không có IAP; không gỡ dependency lib ads (ngoại lệ hạ tầng FRICTIONLESS §3).
+
+## Việc người dùng (Console, không làm hộ được)
+1. App content → Data safety → Import `data_safety.csv`.
+2. App content → Advertising ID = Yes.
+3. (Tuỳ chọn) nếu Console hỏi lý do CAMERA: dán mô tả trên + link video khi đã host.

@@ -1,32 +1,29 @@
-# REVIEW NOTES — Origami Pop (05h) · Play Console "App access" / "Testing instructions"
+# review_notes — Origami Pop (05h) · Google Play Console "Testing instructions" / App access
 
-**Marketing URL (landing)**: https://construacabados-ayc-sas.github.io/origami-pop/ (landing do orchestrator publish — URL deterministic; hiện trả trang mục lục legal HTTP 200)
-**Privacy Policy**: https://construacabados-ayc-sas.github.io/origami-pop/privacy/ · **Terms**: https://construacabados-ayc-sas.github.io/origami-pop/terms/ (Support URL = trang legal của store)
-**Developer / contact**: CONSTRUACABADOS AYC SAS · santanaleticia3168661@gmail.com
-**Package**: com.construacabados.orgami.pop
+(Map từ mẫu App Store Connect Review Notes sang Play Console: **App access**, **Testing instructions**, **Contact**.)
+
+## URLs
+- Marketing/landing: https://construacabados-ayc-sas.github.io/origami-pop/ (sẽ là landing mới sau publish `landing.json`)
+- Privacy Policy: https://construacabados-ayc-sas.github.io/origami-pop/privacy/
+- Terms: https://construacabados-ayc-sas.github.io/origami-pop/terms/
+- Support: santanaleticia3168661@gmail.com (CONSTRUACABADOS AYC SAS)
 
 ## App access
-Toàn bộ chức năng dùng được KHÔNG cần tài khoản/mã/thanh toán: không có màn đăng nhập, không paywall, mọi mẫu mở sẵn. Không cần credential test hay mã ghép đôi (không có tính năng nhiều người).
+Toàn bộ app dùng được ngay, **không đăng nhập, không tài khoản, không paywall**; mọi mẫu mở sẵn. Không cần tài khoản test.
 
-## Định vị (a)
-Origami Pop là app hướng dẫn gấp giấy (origami · kirigami · 3D origami) dành cho người thích thủ công mọi lứa tuổi — người mới, phụ huynh gấp cùng con, giáo viên. Mục tiêu: gấp xong một mẫu mà không bị lạc bước. Pain-point: ảnh tĩnh từng bước thường không đủ nên người gấp bị kẹt; Origami Pop cho **mỗi bước một clip video cắt đúng đoạn**, xem lại một chạm, kèm lưới nhảy bước.
+## Testing instructions (dán vào Console)
+Origami Pop is a step-by-step paper-folding guide (origami, kirigami, 3D origami) for hobbyists and beginners who want to fold a specific model without getting stuck: each step has a photo and a short clip of exactly that fold, progress is saved, and a relaxing Mini Fold game is included.
+1. Launch the app. Pick a language and swipe through the short onboarding (Next → Get Started). You land on Home — no sign-in.
+2. Discover tab → open any model (e.g. Crown) → Start fold. Use Next/Previous or the step grid; tap "Watch this step" to see the clip for that fold; the "?" button opens Basic folds.
+3. Jump to the last step via the grid and tap "Finish & celebrate". On the Congrats screen tap **Take photo** to test the Camera permission (optional — "From gallery" works without it).
+4. Game tab → Play level → swipe or tap the arrows to fold the four corners and reveal the picture.
+5. Profile tab → Language, Appearance, Daily reminder (Notifications permission is requested on Android 13+).
+Requires an internet connection to load guide images/clips. The app shows ads (AdMob + mediation); Advertising ID is declared in Data safety.
 
-## Khác biệt (b)
-- Clip video cắt theo từng bước (nút "Watch this step", thời lượng đúng đoạn) thay vì một video dài hoặc ảnh tĩnh.
-- Mọi mẫu mở sẵn, không đăng nhập; không khoá bằng quảng cáo.
-- Lưới chọn bước (thumbnail) + Basic Folds guide (6 kiểu gấp) + game thư giãn "Mini Fold" (250 level) + thư viện ảnh thành phẩm tự chụp (lưu local).
-- Selling-point trong listing ("Stuck on a step? Watch that clip") đồng hook với định vị trên.
+## Khác biệt/định vị (nội bộ)
+- USP: "không bao giờ kẹt ở một bước" — clip cắt đúng đoạn từng bước + tiếp tục đúng bước đang dừng; ba catalog (origami, kirigami, 3D) + Mini Fold. Listing, screenshot và landing cùng hook này.
+- Không có mã ghép đôi/tài khoản test cần cấp (app không có tương tác 2 người).
 
-## Hướng dẫn test (c)
-1. Mở app → funnel Splash / chọn ngôn ngữ / onboarding → Home (không paywall). Có thể có hộp thoại xin quyền thông báo (tuỳ chọn, bấm Allow/Don't allow đều được).
-2. **Discover** → chọn một mẫu (vd *Cute Cat*, 20 bước, 20 clip) → **Start fold**. Ở Viewer: bấm **Next step**; bấm **Watch this step** để xem clip của đúng bước (cần mạng để tải ảnh/clip — nếu offline, ảnh/clip chưa mở sẽ không tải được); bấm ô lưới (góc phải dưới dải thumbnail) để nhảy bước; bấm **?** để xem Basic Folds.
-3. Đi tới bước cuối → **Finish & celebrate** → **Take photo** (cấp quyền CAMERA khi được hỏi; hoặc **From gallery**) → **Save to Creations**; xem tại tab **Creations**.
-4. Tab **Game** (nút bướm giữa thanh dưới) → **Play level 1**: vuốt/bấm 4 mũi tên để gấp 4 góc → lộ hình → +10 coin.
-5. Profile → bật/tắt Daily reminder, Dark mode, Language.
-Ghi chú: app hiển thị quảng cáo AdMob (có consent UMP ở EEA/UK); coin trong game là tiền ảo kiếm miễn phí, KHÔNG có giao dịch tiền thật.
-
-## Permissions
-CAMERA (chụp ảnh thành phẩm, tuỳ chọn) · POST_NOTIFICATIONS + RECEIVE_BOOT_COMPLETED (nhắc hằng ngày, tuỳ chọn). Không có quyền nhạy cảm cần video demo — xem `permissions_declarations.md`.
-
-## Liên hệ
-santanaleticia3168661@gmail.com — CONSTRUACABADOS AYC SAS.
+## Lưu ý trước khi submit
+- Policy WARN-1 (`policy_audit.md`): bỏ câu/phần thưởng "300 coins khi rate" ở màn Rate.
+- Cập nhật Privacy/Terms cho package `com.construacabados.orgami.pop`.
